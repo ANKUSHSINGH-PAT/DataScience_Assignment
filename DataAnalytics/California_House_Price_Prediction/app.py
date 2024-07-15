@@ -4,9 +4,17 @@ import numpy as np
 
 # Load the pickled model
 def load_model():
-    with open('model.pkl', 'rb') as file:
-        model = pickle.load(file)
-    return model
+    try:
+        model_path = os.path.join(os.getcwd(), 'model.pkl')
+        with open(model_path, 'rb') as file:
+            model = pickle.load(file)
+        return model
+    except FileNotFoundError:
+        print(f"Error: 'model.pkl' not found in directory: {os.getcwd()}")
+        return None
+    except Exception as e:
+        print(f"Error loading 'model.pkl': {e}")
+        return None
 
 # Function to predict housing prices
 def predict_price(model, input_data):
